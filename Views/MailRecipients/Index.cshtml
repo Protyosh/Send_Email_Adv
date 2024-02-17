@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Assignment.Models.Recipient>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("SendEmail", "Recipients", FormMethod.Post))
+{
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Email</th>
+                <th>Company</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recipient in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="Recipients" value="@recipient.Email" />
+                    </td>
+                    <td>@recipient.RecipientId</td>
+                    <td>@recipient.Name</td>
+                    <td>@recipient.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <label for="fromEmail">From Email:</label>
+    <input type="email" name="FromEmail" id="fromEmail" required />
+
+    <label for="subject">Subject:</label>
+    <input type="text" name="Subject" id="subject" required />
+
+    <label for="body">Body:</label>
+    <textarea name="Body" id="body" rows="10" cols="50" required></textarea>
+
+    <input type="submit" value="Send Email" />
+}
+
+<h2>Email Status</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sent To</th>
+            <th>Sent Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var email in ViewBag.Emails)
+        {
+            <tr>
+                <td>@email.SentTo</td>
+                <td>@email.SentDate.ToString("g")</td>
+                <td>@email.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
